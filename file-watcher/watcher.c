@@ -1,4 +1,3 @@
-#include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,13 +10,15 @@ int main(int argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
+  char *watching_dir = argv[1];
+  printf("Watching directory: %s\n", watching_dir);
+
   int fd = inotify_init();
   if (fd == -1) {
     perror("inotify_init");
     exit(EXIT_FAILURE);
   }
-
-  inotify_add_watch(fd, argv[1], IN_CLOSE_WRITE | IN_DELETE);
+  inotify_add_watch(fd, watching_dir, IN_CLOSE_WRITE | IN_DELETE);
 
   char buffer[4096];
 
